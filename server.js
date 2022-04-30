@@ -2,11 +2,9 @@
 const express = require('express')
 const app = express()
 
-const min = require('minimist')
-const args = min(process.argv.slice(2))
-
+const args = require('minimist')(process.argv.slice(2))
 args['port']
-const port = args.port || process.env.PORT || 5000
+const port = args.port || 5555
 
 // Start an app server
 const server = app.listen(port, () => {
@@ -23,28 +21,24 @@ app.get('/app/', (req, res) => {
 });
 
 app.get('/app/flip/', (req, res) => {
-    let flip = coinFlip()
-    res.statusCode = 200;
-    res.json({ 'flip': flip })
+    const flip = coinFlip()
+    res.status(200).json({ "flip" : flip })
 })
 
 app.get('/app/flips/:number', (req, res) => {
     let flips = coinFlips(req.params.number)
     let total = countFlips(flips)
-    res.statusCode = 200
-    res.json({ 'raw': flips, 'summary': total })
+    res.status(200).json({ 'raw': flips, 'summary': total })
 })
 
 app.get('/app/flip/call/heads', (req, res) => {
-    let heads = flipACoin('heads')
-    res.statusCode = 200
-    res.json(heads)
+    const flipResult = flipACoin('heads')
+    res.status(200).json({ 'call' : flipResult.call, 'flip' : flipResult.flip, 'result' : flipResult.result })
 })
 
 app.get('/app/flip/call/tails', (req, res) => {
-    let tails = flipACoin('tails')
-    res.statusCode = 200
-    res.json(tails)
+    const flipResult = flipACoin('tails')
+    res.status(200).json({ 'call' : flipResult.call, 'flip' : flipResult.flip, 'result' : flipResult.result })
 })
 
 // Default response for any other request
