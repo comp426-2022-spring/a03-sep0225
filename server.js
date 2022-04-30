@@ -63,20 +63,15 @@ app.get('/app/flip/', (req, res) => {
     res.status(200).json({ "flip" : flip })
 })
 
-app.get('/app/flips/:number', (req, res) => {
-    let flips = coinFlips(req.params.number)
-    let total = countFlips(flips)
+app.get('/app/flips/:number([0-9]{1,3})', (req, res) => {
+    const flips = coinFlips(req.params.number)
+    const total = countFlips(flips)
     res.status(200).json({ 'raw': flips, 'summary': total })
 })
 
-app.get('/app/flip/call/tails', (req, res) => {
-    const flipResult = flipACoin('tails')
-    res.status(200).json({ 'call' : flipResult.call, 'flip' : flipResult.flip, 'result' : flipResult.result })
-})
-
-app.get('/app/flip/call/heads', (req, res) => {
-  const flipResult = flipACoin('heads')
-  res.status(200).json({ 'call' : flipResult.call, 'flip' : flipResult.flip, 'result' : flipResult.result })
+app.get('/app/flip/call/:guess(heads|tails)/', (req, res) => {
+    const flipResult = flipACoin(req.params.guess)
+    res.status(200).json(flipResult)
 })
 
 app.use(function(req, res){
