@@ -2,20 +2,11 @@
 const express = require('express')
 const app = express()
 
-//const min = require('minimist')
-//const args = min(process.argv.slice(2))
+const min = require('minimist')
+const args = min(process.argv.slice(2))
 
-//args['port']
-//const port = args.port || process.env.PORT || 5000
-
-const args = require('yargs').argv
-let port
-
-if (typeof args.port === "undefined") {
-  port = 5000;
-} else {
-  port = args.port
-}
+args['port']
+const port = args.port || process.env.PORT || 5000
 
 // Start an app server
 const server = app.listen(port, () => {
