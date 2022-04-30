@@ -58,22 +58,43 @@ app.get('/app/', (req, res) => {
   res.end(res.statusCode+ ' ' +res.statusMessage)
 });
 
+// app.get('/app/flip/', (req, res) => {
+//     const flip = coinFlip()
+//     res.status(200).json({ "flip" : flip })
+// })
+
+// app.get('/app/flips/:number([0-9]{1,3})', (req, res) => {
+//     const flips = coinFlips(req.params.number)
+//     const total = countFlips(flips)
+//     res.status(200).json({ 'raw': flips, 'summary': total })
+// })
+
+// app.get('/app/flip/call/:guess(heads|tails)/', (req, res) => {
+//     const flipResult = flipACoin(req.params.guess)
+//     res.status(200).json(flipResult)
+// })
+
 app.get('/app/flip/', (req, res) => {
-    const flip = coinFlip()
-    res.status(200).json({ "flip" : flip })
-})
+  const flip = coinFlip()
+  res.status(200).json({'flip' : flip})
+});
 
-app.get('/app/flips/:number([0-9]{1,3})', (req, res) => {
-    const flips = coinFlips(req.params.number)
-    const total = countFlips(flips)
-    res.status(200).json({ 'raw': flips, 'summary': total })
-})
+// autograder
+app.get('/app/flips/:number/', (req, res) => {
+  const flips = coinFlips(req.params.number)
+  const count = countFlips(flips)
+  
+  res.status(200).json({'raw' : flips, 'summary' : count})
+});
 
-app.get('/app/flip/call/:guess(heads|tails)/', (req, res) => {
-    const flipResult = flipACoin(req.params.guess)
-    res.status(200).json(flipResult)
-})
+app.get('/app/flip/call/heads', (req, res) => {
+  res.status(200).json(flipACoin("heads"))
+});
+
+app.get('/app/flip/call/tails', (req, res) => {
+  res.status(200).json(flipACoin("tails"))
+});
 
 app.use(function(req, res){
-    res.status(404).send('404 NOT FOUND')
+  res.status(404).send('404 NOT FOUND')
 });
