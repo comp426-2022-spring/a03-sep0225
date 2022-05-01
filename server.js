@@ -62,11 +62,11 @@ function countFlips(array) {
   }
   if (h_amt == 0) {
     return "{ tails: " + t_amt + " }";
-  }
-  if (t_amt == 0) {
+  } else if (t_amt == 0) {
     return "{ heads: " + h_amt + " }";
+  } else {
+    return "{ heads: " + h_amt + ", tails: " + t_amt + " }";
   }
-  return "{ heads: " + h_amt + ", tails: " + t_amt + " }";
 }
 
 function flipACoin(call) {
@@ -77,5 +77,5 @@ function flipACoin(call) {
   } else {
     result = "lose";
   }
-  return "{ call: '" + call + "', flip: '" + flip + "', result: '" + result + "' }";
+  return {call: call, flip: flip, result: "win"};
 }
