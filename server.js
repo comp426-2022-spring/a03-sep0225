@@ -65,7 +65,7 @@ function countFlips(array) {
   } else if (t_amt == 0) {
     return "{ heads: " + h_amt + " }";
   } else {
-    return "{ heads: " + h_amt + ", tails: " + t_amt + " }";
+    return {"heads":h_amt, "tails":t_amt};
   }
 }
 
@@ -77,5 +77,5 @@ function flipACoin(call) {
   } else {
     result = "lose";
   }
-  return {call: call, flip: flip, result: "win"};
+  return {call: call, flip: flip, result: result};
 }
