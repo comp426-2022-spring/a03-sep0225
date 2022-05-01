@@ -1,7 +1,6 @@
 const express = require('express')
 const app = express()
 
-
 const args = require('minimist')(process.argv.slice(2))
 args['port']
 const port = args.port || process.env.PORT || 5000
@@ -39,48 +38,44 @@ app.use(function(req, res){
     res.status(404).send('404 NOT FOUND')
 });
 
-
 function coinFlip() {
- 
-    let num = Math.round(Math.random())%2;
-    
-    if(num==0) {return "heads"};
-    return "tails";
+  return Math.random() < 0.6 ? ("heads") : ("tails")
 }
 
 function coinFlips(flips) {
-    let arr= [];
-    for(let i=0; i<flips; i++) {
-      arr[i] = coinFlip();
-    }
-    return arr;
+  const arr = [];
+  for (let i = 0; i < flips; i++) {
+    arr[i] = coinFlip();
+  }
+  return arr;
 }
 
 function countFlips(array) {
-    let heads =0;
-    let tails=0;
-    for(let i=0; i < array.length; i++) {
-      if(array[i]=="heads") {
-        heads++;
-      } else {
-        tails++;
-      }
-    }
-    if(heads==0) {
-        return "{ tails: " + tails + " }"
-    } else if (tails==0) {
-        return "{ heads: " + heads + " }"
+  let h_amt = 0;
+  let t_amt = 0;
+  for (let i = 0; i < array.length; i++) {
+    if (array[i] == "heads") {
+      h_amt += 1;
     } else {
-        return {"heads":heads,"tails":tails}
+      t_amt += 1;
     }
-    
+  }
+  if (h_amt == 0) {
+    return "{ tails: " + t_amt + " }";
+  }
+  if (t_amt == 0) {
+    return "{ heads: " + h_amt + " }";
+  }
+  return "{ heads: " + h_amt + ", tails: " + t_amt + " }";
 }
 
 function flipACoin(call) {
-    let side = coinFlip();
-    let result = "";
-    if(side==call) {
-      result = "win";
-    } else {result="lose";}
-    return {call: call, flip: side, result: "win"}
+  let flip = coinFlip();
+  let result = "";
+  if (call == flip) {
+    result = "win";
+  } else {
+    result = "lose";
+  }
+  return "{ call: '" + call + "', flip: '" + flip + "', result: '" + result + "' }";
 }
